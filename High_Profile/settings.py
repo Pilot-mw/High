@@ -166,3 +166,15 @@ SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
+
+import os
+from django.contrib.auth import get_user_model
+
+if os.environ.get("CREATE_SUPERUSER", "False") == "True":
+    User = get_user_model()
+    username = os.environ.get("DJANGO_SUPERUSER_USERNAME", "admin")
+    email = os.environ.get("DJANGO_SUPERUSER_EMAIL", "admin@example.com")
+    password = os.environ.get("DJANGO_SUPERUSER_PASSWORD", "admin123")
+
+    if not User.objects.filter(username=username).exists():
+        User.objects.create_superuser(username, email, password)
