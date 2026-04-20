@@ -1,0 +1,617 @@
+{% extends 'dashboard/base.html' %}
+
+{% block title %}Forms - School Management System{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="mb-1">Forms & Streams</h2>
+            <p class="text-muted mb-0">Manage all forms and stream assignments</p>
+        </div>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFormModal">
+            <i class="fas fa-plus me-2"></i>Add Form
+        </button>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card stat-card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-1">Total Forms</p>
+                        <h3 class="mb-0 editable-field" data-model="stats" data-field="total_forms" contenteditable="false">4</h3>
+                    </div>
+                    <div class="stat-icon bg-primary bg-opacity-10">
+                        <i class="fas fa-graduation-cap text-primary"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card stat-card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-1">Total Streams</p>
+                        <h3 class="mb-0 editable-field" data-model="stats" data-field="total_streams" contenteditable="false">2</h3>
+                    </div>
+                    <div class="stat-icon bg-success bg-opacity-10">
+                        <i class="fas fa-layer-group text-success"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card stat-card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-1">Total Classes</p>
+                        <h3 class="mb-0 editable-field" data-model="stats" data-field="total_classes" contenteditable="false">8</h3>
+                    </div>
+                    <div class="stat-icon bg-info bg-opacity-10">
+                        <i class="fas fa-school text-info"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card stat-card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted mb-1">Avg. Form Size</p>
+                        <h3 class="mb-0 editable-field" data-model="stats" data-field="avg_size" contenteditable="false">156</h3>
+                    </div>
+                    <div class="stat-icon bg-warning bg-opacity-10">
+                        <i class="fas fa-users text-warning"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    {% for form_num in "1234" %}
+    <div class="col-12 col-md-6 col-xl-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <h5 class="mb-1 editable-field" data-model="form" data-field="name" data-id="{{ forloop.counter }}" contenteditable="false">Form {{ forloop.counter }}</h5>
+                        <span class="badge bg-primary bg-opacity-10 text-primary editable-field" data-model="form" data-field="stream_count" data-id="{{ forloop.counter }}" contenteditable="false">2 Streams</span>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-muted p-0" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item edit-inline" href="#" data-target="form-{{ forloop.counter }}"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i>View</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash me-2"></i>Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="text-center p-3 bg-success bg-opacity-10 rounded editable-field" data-model="stream" data-field="students" data-id="{{ forloop.counter }}-A">
+                            <h4 class="mb-1">{{ forloop.counter|add:"75" }}</h4>
+                            <small class="text-muted fw-medium">Stream A</small>
+                            <div class="mt-2">
+                                <small class="text-success editable-field" data-model="stream" data-field="teacher" data-id="{{ forloop.counter }}-A" contenteditable="false">
+                                    {% if forloop.counter == 1 %}Mr. Robert Davis{% elif forloop.counter == 2 %}Ms. Jennifer Martinez{% elif forloop.counter == 3 %}Mr. David Kim{% else %}Ms. Susan Parker{% endif %}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-center p-3 bg-info bg-opacity-10 rounded editable-field" data-model="stream" data-field="students" data-id="{{ forloop.counter }}-B">
+                            <h4 class="mb-1">{{ forloop.counter|add:"78" }}</h4>
+                            <small class="text-muted fw-medium">Stream B</small>
+                            <div class="mt-2">
+                                <small class="text-info editable-field" data-model="stream" data-field="teacher" data-id="{{ forloop.counter }}-B" contenteditable="false">
+                                    {% if forloop.counter == 1 %}Mrs. Lisa Brown{% elif forloop.counter == 2 %}Mr. Mark Johnson{% elif forloop.counter == 3 %}Ms. Anna Taylor{% else %}Mr. James Wilson{% endif %}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted">Total Students</small>
+                        <h5 class="mb-0 fw-bold editable-field" data-model="form" data-field="total_students" data-id="{{ forloop.counter }}" contenteditable="false">{{ forloop.counter|add:"153" }}</h5>
+                    </div>
+                    <div class="text-end">
+                        <small class="text-muted">Rooms</small>
+                        <p class="mb-0 fw-medium editable-field" data-model="form" data-field="rooms" data-id="{{ forloop.counter }}" contenteditable="false">
+                            {% if forloop.counter == 1 %}101, 102{% elif forloop.counter == 2 %}103, 104{% elif forloop.counter == 3 %}201, 202{% else %}203, 204{% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white border-0">
+                <a href="#" class="btn btn-outline-primary btn-sm w-100">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Form Details</h5>
+            <button class="btn btn-sm btn-success" id="enableEditMode"><i class="fas fa-edit me-2"></i>Enable Edit Mode</button>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="border-0 py-3 px-4">Form</th>
+                        <th class="border-0 py-3">Stream</th>
+                        <th class="border-0 py-3">Teacher</th>
+                        <th class="border-0 py-3">Students</th>
+                        <th class="border-0 py-3">Room No</th>
+                        <th class="border-0 py-3">Status</th>
+                        <th class="border-0 py-3 text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-id="1">
+                        <td class="py-3 px-4 fw-bold editable-field" data-model="form_detail" data-field="form_name" data-id="1" contenteditable="false">Form 1</td>
+                        <td><span class="badge bg-success bg-opacity-10 text-success">Stream A</span></td>
+                        <td class="editable-field" data-model="form_detail" data-field="teacher_a" data-id="1" contenteditable="false">Mr. Robert Davis</td>
+                        <td class="editable-field" data-model="form_detail" data-field="students_a" data-id="1" contenteditable="false">76</td>
+                        <td class="editable-field" data-model="form_detail" data-field="room_a" data-id="1" contenteditable="false">Room 101</td>
+                        <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+                        <td class="text-end">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light edit-row-btn"><i class="fas fa-edit text-info"></i></button>
+                                <button class="btn btn-sm btn-light save-row-btn" style="display:none;"><i class="fas fa-save text-success"></i></button>
+                                <button class="btn btn-sm btn-light cancel-row-btn" style="display:none;"><i class="fas fa-times text-warning"></i></button>
+                                <button class="btn btn-sm btn-light delete-row-btn"><i class="fas fa-trash text-danger"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-id="2">
+                        <td class="py-3 px-4 fw-bold editable-field" data-model="form_detail" data-field="form_name" data-id="2" contenteditable="false">Form 1</td>
+                        <td><span class="badge bg-info bg-opacity-10 text-info">Stream B</span></td>
+                        <td class="editable-field" data-model="form_detail" data-field="teacher_b" data-id="2" contenteditable="false">Mrs. Lisa Brown</td>
+                        <td class="editable-field" data-model="form_detail" data-field="students_b" data-id="2" contenteditable="false">79</td>
+                        <td class="editable-field" data-model="form_detail" data-field="room_b" data-id="2" contenteditable="false">Room 102</td>
+                        <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+                        <td class="text-end">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light edit-row-btn"><i class="fas fa-edit text-info"></i></button>
+                                <button class="btn btn-sm btn-light save-row-btn" style="display:none;"><i class="fas fa-save text-success"></i></button>
+                                <button class="btn btn-sm btn-light cancel-row-btn" style="display:none;"><i class="fas fa-times text-warning"></i></button>
+                                <button class="btn btn-sm btn-light delete-row-btn"><i class="fas fa-trash text-danger"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-id="3">
+                        <td class="py-3 px-4 fw-bold editable-field" data-model="form_detail" data-field="form_name" data-id="3" contenteditable="false">Form 2</td>
+                        <td><span class="badge bg-success bg-opacity-10 text-success">Stream A</span></td>
+                        <td class="editable-field" data-model="form_detail" data-field="teacher_a" data-id="3" contenteditable="false">Ms. Jennifer Martinez</td>
+                        <td class="editable-field" data-model="form_detail" data-field="students_a" data-id="3" contenteditable="false">77</td>
+                        <td class="editable-field" data-model="form_detail" data-field="room_a" data-id="3" contenteditable="false">Room 103</td>
+                        <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+                        <td class="text-end">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light edit-row-btn"><i class="fas fa-edit text-info"></i></button>
+                                <button class="btn btn-sm btn-light save-row-btn" style="display:none;"><i class="fas fa-save text-success"></i></button>
+                                <button class="btn btn-sm btn-light cancel-row-btn" style="display:none;"><i class="fas fa-times text-warning"></i></button>
+                                <button class="btn btn-sm btn-light delete-row-btn"><i class="fas fa-trash text-danger"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-id="4">
+                        <td class="py-3 px-4 fw-bold editable-field" data-model="form_detail" data-field="form_name" data-id="4" contenteditable="false">Form 2</td>
+                        <td><span class="badge bg-info bg-opacity-10 text-info">Stream B</span></td>
+                        <td class="editable-field" data-model="form_detail" data-field="teacher_b" data-id="4" contenteditable="false">Mr. Mark Johnson</td>
+                        <td class="editable-field" data-model="form_detail" data-field="students_b" data-id="4" contenteditable="false">80</td>
+                        <td class="editable-field" data-model="form_detail" data-field="room_b" data-id="4" contenteditable="false">Room 104</td>
+                        <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+                        <td class="text-end">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light edit-row-btn"><i class="fas fa-edit text-info"></i></button>
+                                <button class="btn btn-sm btn-light save-row-btn" style="display:none;"><i class="fas fa-save text-success"></i></button>
+                                <button class="btn btn-sm btn-light cancel-row-btn" style="display:none;"><i class="fas fa-times text-warning"></i></button>
+                                <button class="btn btn-sm btn-light delete-row-btn"><i class="fas fa-trash text-danger"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-id="5">
+                        <td class="py-3 px-4 fw-bold editable-field" data-model="form_detail" data-field="form_name" data-id="5" contenteditable="false">Form 3</td>
+                        <td><span class="badge bg-success bg-opacity-10 text-success">Stream A</span></td>
+                        <td class="editable-field" data-model="form_detail" data-field="teacher_a" data-id="5" contenteditable="false">Mr. David Kim</td>
+                        <td class="editable-field" data-model="form_detail" data-field="students_a" data-id="5" contenteditable="false">78</td>
+                        <td class="editable-field" data-model="form_detail" data-field="room_a" data-id="5" contenteditable="false">Room 201</td>
+                        <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+                        <td class="text-end">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light edit-row-btn"><i class="fas fa-edit text-info"></i></button>
+                                <button class="btn btn-sm btn-light save-row-btn" style="display:none;"><i class="fas fa-save text-success"></i></button>
+                                <button class="btn btn-sm btn-light cancel-row-btn" style="display:none;"><i class="fas fa-times text-warning"></i></button>
+                                <button class="btn btn-sm btn-light delete-row-btn"><i class="fas fa-trash text-danger"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-id="6">
+                        <td class="py-3 px-4 fw-bold editable-field" data-model="form_detail" data-field="form_name" data-id="6" contenteditable="false">Form 3</td>
+                        <td><span class="badge bg-info bg-opacity-10 text-info">Stream B</span></td>
+                        <td class="editable-field" data-model="form_detail" data-field="teacher_b" data-id="6" contenteditable="false">Ms. Anna Taylor</td>
+                        <td class="editable-field" data-model="form_detail" data-field="students_b" data-id="6" contenteditable="false">81</td>
+                        <td class="editable-field" data-model="form_detail" data-field="room_b" data-id="6" contenteditable="false">Room 202</td>
+                        <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+                        <td class="text-end">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light edit-row-btn"><i class="fas fa-edit text-info"></i></button>
+                                <button class="btn btn-sm btn-light save-row-btn" style="display:none;"><i class="fas fa-save text-success"></i></button>
+                                <button class="btn btn-sm btn-light cancel-row-btn" style="display:none;"><i class="fas fa-times text-warning"></i></button>
+                                <button class="btn btn-sm btn-light delete-row-btn"><i class="fas fa-trash text-danger"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-id="7">
+                        <td class="py-3 px-4 fw-bold editable-field" data-model="form_detail" data-field="form_name" data-id="7" contenteditable="false">Form 4</td>
+                        <td><span class="badge bg-success bg-opacity-10 text-success">Stream A</span></td>
+                        <td class="editable-field" data-model="form_detail" data-field="teacher_a" data-id="7" contenteditable="false">Ms. Susan Parker</td>
+                        <td class="editable-field" data-model="form_detail" data-field="students_a" data-id="7" contenteditable="false">79</td>
+                        <td class="editable-field" data-model="form_detail" data-field="room_a" data-id="7" contenteditable="false">Room 203</td>
+                        <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+                        <td class="text-end">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light edit-row-btn"><i class="fas fa-edit text-info"></i></button>
+                                <button class="btn btn-sm btn-light save-row-btn" style="display:none;"><i class="fas fa-save text-success"></i></button>
+                                <button class="btn btn-sm btn-light cancel-row-btn" style="display:none;"><i class="fas fa-times text-warning"></i></button>
+                                <button class="btn btn-sm btn-light delete-row-btn"><i class="fas fa-trash text-danger"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-id="8">
+                        <td class="py-3 px-4 fw-bold editable-field" data-model="form_detail" data-field="form_name" data-id="8" contenteditable="false">Form 4</td>
+                        <td><span class="badge bg-info bg-opacity-10 text-info">Stream B</span></td>
+                        <td class="editable-field" data-model="form_detail" data-field="teacher_b" data-id="8" contenteditable="false">Mr. James Wilson</td>
+                        <td class="editable-field" data-model="form_detail" data-field="students_b" data-id="8" contenteditable="false">82</td>
+                        <td class="editable-field" data-model="form_detail" data-field="room_b" data-id="8" contenteditable="false">Room 204</td>
+                        <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+                        <td class="text-end">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-light edit-row-btn"><i class="fas fa-edit text-info"></i></button>
+                                <button class="btn btn-sm btn-light save-row-btn" style="display:none;"><i class="fas fa-save text-success"></i></button>
+                                <button class="btn btn-sm btn-light cancel-row-btn" style="display:none;"><i class="fas fa-times text-warning"></i></button>
+                                <button class="btn btn-sm btn-light delete-row-btn"><i class="fas fa-trash text-danger"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addFormModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addFormForm">
+                    <div class="mb-3">
+                        <label class="form-label">Form Name</label>
+                        <select class="form-select" id="formName" required>
+                            <option value="">Select Form</option>
+                            <option>Form 1</option>
+                            <option>Form 2</option>
+                            <option>Form 3</option>
+                            <option>Form 4</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Stream</label>
+                        <select class="form-select" id="formStream" required>
+                            <option value="">Select Stream</option>
+                            <option>Stream A</option>
+                            <option>Stream B</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Form Teacher</label>
+                        <select class="form-select" id="formTeacher">
+                            <option value="">Select Teacher</option>
+                            <option>Mr. Robert Davis</option>
+                            <option>Ms. Jennifer Martinez</option>
+                            <option>Mr. David Kim</option>
+                            <option>Ms. Susan Parker</option>
+                            <option>Mrs. Lisa Brown</option>
+                            <option>Mr. Mark Johnson</option>
+                            <option>Ms. Anna Taylor</option>
+                            <option>Mr. James Wilson</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Room Number</label>
+                        <input type="text" class="form-control" id="formRoom" placeholder="e.g., Room 101">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Number of Students</label>
+                        <input type="number" class="form-control" id="formStudents" placeholder="e.g., 45" min="1">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveNewForm">Add Form</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let editMode = false;
+    let originalValues = {};
+
+    // Enable/Disable Edit Mode
+    document.getElementById('enableEditMode').addEventListener('click', function() {
+        editMode = !editMode;
+        const fields = document.querySelectorAll('.editable-field');
+        
+        fields.forEach(field => {
+            if (!field.closest('.stat-card')) {
+                field.contentEditable = editMode;
+                field.style.outline = editMode ? '2px dashed #6366f1' : 'none';
+                field.style.borderRadius = editMode ? '4px' : '0';
+                field.style.backgroundColor = editMode ? '#f8fafc' : 'transparent';
+            }
+        });
+
+        this.innerHTML = editMode ? '<i class="fas fa-lock me-2"></i>Disable Edit Mode' : '<i class="fas fa-edit me-2"></i>Enable Edit Mode';
+        this.classList.toggle('btn-success', editMode);
+        this.classList.toggle('btn-outline-success', !editMode);
+    });
+
+    // Save edited field
+    function saveField(field) {
+        const model = field.dataset.model;
+        const fieldName = field.dataset.field;
+        const id = field.dataset.id || 'default';
+        const newValue = field.textContent.trim();
+        const originalValue = originalValues[`${model}-${fieldName}-${id}`];
+
+        if (newValue !== originalValue) {
+            console.log('Saving:', { model, field: fieldName, id, newValue, oldValue: originalValue });
+            
+            field.style.backgroundColor = '#dcfce7';
+            field.style.outline = '2px solid #22c55e';
+            setTimeout(() => {
+                field.style.backgroundColor = editMode ? '#f8fafc' : 'transparent';
+                field.style.outline = editMode ? '2px dashed #6366f1' : 'none';
+            }, 1000);
+        }
+    }
+
+    // Capture original values and save on blur
+    document.querySelectorAll('.editable-field').forEach(field => {
+        field.addEventListener('focus', function() {
+            const model = this.dataset.model;
+            const fieldName = this.dataset.field;
+            const id = this.dataset.id || 'default';
+            originalValues[`${model}-${fieldName}-${id}`] = this.textContent.trim();
+        });
+
+        field.addEventListener('blur', function() {
+            if (editMode || this.closest('.stat-card')) {
+                saveField(this);
+            }
+        });
+
+        field.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.blur();
+            }
+        });
+    });
+
+    // Row-specific edit buttons
+    document.querySelectorAll('.edit-row-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const row = this.closest('tr');
+            const fields = row.querySelectorAll('.editable-field');
+            const saveBtn = row.querySelector('.save-row-btn');
+            const cancelBtn = row.querySelector('.cancel-row-btn');
+
+            fields.forEach(field => {
+                field.contentEditable = true;
+                field.style.outline = '2px dashed #6366f1';
+                field.style.borderRadius = '4px';
+                field.style.backgroundColor = '#f8fafc';
+            });
+
+            this.style.display = 'none';
+            saveBtn.style.display = 'inline-block';
+            cancelBtn.style.display = 'inline-block';
+        });
+    });
+
+    // Save row
+    document.querySelectorAll('.save-row-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const row = this.closest('tr');
+            const fields = row.querySelectorAll('.editable-field');
+            const editBtn = row.querySelector('.edit-row-btn');
+            const cancelBtn = row.querySelector('.cancel-row-btn');
+
+            fields.forEach(field => {
+                field.contentEditable = false;
+                field.style.outline = 'none';
+                field.style.backgroundColor = 'transparent';
+                saveField(field);
+            });
+
+            this.style.display = 'none';
+            cancelBtn.style.display = 'none';
+            editBtn.style.display = 'inline-block';
+        });
+    });
+
+    // Cancel edit
+    document.querySelectorAll('.cancel-row-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const row = this.closest('tr');
+            const fields = row.querySelectorAll('.editable-field');
+            const editBtn = row.querySelector('.edit-row-btn');
+            const saveBtn = row.querySelector('.save-row-btn');
+
+            fields.forEach(field => {
+                const model = field.dataset.model;
+                const fieldName = field.dataset.field;
+                const id = field.dataset.id || 'default';
+                field.textContent = originalValues[`${model}-${fieldName}-${id}`] || field.textContent;
+                field.contentEditable = false;
+                field.style.outline = 'none';
+                field.style.backgroundColor = 'transparent';
+            });
+
+            this.style.display = 'none';
+            saveBtn.style.display = 'none';
+            editBtn.style.display = 'inline-block';
+        });
+    });
+
+    // Delete row
+    document.querySelectorAll('.delete-row-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to delete this record?')) {
+                const row = this.closest('tr');
+                row.style.animation = 'fadeOut 0.3s ease-out';
+                setTimeout(() => {
+                    row.remove();
+                }, 300);
+            }
+        });
+    });
+
+    // Add new form
+    document.getElementById('saveNewForm').addEventListener('click', function() {
+        const formName = document.getElementById('formName').value;
+        const stream = document.getElementById('formStream').value;
+        const teacher = document.getElementById('formTeacher').value;
+        const room = document.getElementById('formRoom').value;
+        const students = document.getElementById('formStudents').value;
+
+        if (!formName || !stream) {
+            alert('Please fill in required fields');
+            return;
+        }
+
+        const tbody = document.querySelector('.table tbody');
+        const rowCount = tbody.querySelectorAll('tr').length + 1;
+        const streamClass = stream === 'Stream A' ? 'success' : 'info';
+        
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td class="py-3 px-4 fw-bold editable-field" data-model="form_detail" data-field="form_name" contenteditable="false">${formName}</td>
+            <td><span class="badge bg-${streamClass} bg-opacity-10 text-${streamClass}">${stream}</span></td>
+            <td class="editable-field" data-model="form_detail" data-field="teacher" contenteditable="false">${teacher || '-'}</td>
+            <td class="editable-field" data-model="form_detail" data-field="students" contenteditable="false">${students || '0'}</td>
+            <td class="editable-field" data-model="form_detail" data-field="room" contenteditable="false">${room || '-'}</td>
+            <td><span class="badge bg-success bg-opacity-10 text-success">Active</span></td>
+            <td class="text-end">
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-light edit-row-btn"><i class="fas fa-edit text-info"></i></button>
+                    <button class="btn btn-sm btn-light save-row-btn" style="display:none;"><i class="fas fa-save text-success"></i></button>
+                    <button class="btn btn-sm btn-light cancel-row-btn" style="display:none;"><i class="fas fa-times text-warning"></i></button>
+                    <button class="btn btn-sm btn-light delete-row-btn"><i class="fas fa-trash text-danger"></i></button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(newRow);
+
+        bootstrap.Modal.getInstance(document.getElementById('addFormModal')).hide();
+        document.getElementById('addFormForm').reset();
+
+        initRowListeners(newRow);
+    });
+
+    function initRowListeners(row) {
+        row.querySelector('.edit-row-btn').addEventListener('click', function() {
+            const fields = row.querySelectorAll('.editable-field');
+            const saveBtn = row.querySelector('.save-row-btn');
+            const cancelBtn = row.querySelector('.cancel-row-btn');
+            fields.forEach(field => {
+                field.contentEditable = true;
+                field.style.outline = '2px dashed #6366f1';
+                field.style.backgroundColor = '#f8fafc';
+            });
+            this.style.display = 'none';
+            saveBtn.style.display = 'inline-block';
+            cancelBtn.style.display = 'inline-block';
+        });
+
+        row.querySelector('.save-row-btn').addEventListener('click', function() {
+            const fields = row.querySelectorAll('.editable-field');
+            const editBtn = row.querySelector('.edit-row-btn');
+            const cancelBtn = row.querySelector('.cancel-row-btn');
+            fields.forEach(field => {
+                field.contentEditable = false;
+                field.style.outline = 'none';
+                field.style.backgroundColor = 'transparent';
+            });
+            this.style.display = 'none';
+            cancelBtn.style.display = 'none';
+            editBtn.style.display = 'inline-block';
+        });
+
+        row.querySelector('.cancel-row-btn').addEventListener('click', function() {
+            const fields = row.querySelectorAll('.editable-field');
+            const editBtn = row.querySelector('.edit-row-btn');
+            const saveBtn = row.querySelector('.save-row-btn');
+            fields.forEach(field => {
+                field.contentEditable = false;
+                field.style.outline = 'none';
+                field.style.backgroundColor = 'transparent';
+            });
+            this.style.display = 'none';
+            saveBtn.style.display = 'none';
+            editBtn.style.display = 'inline-block';
+        });
+
+        row.querySelector('.delete-row-btn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to delete this record?')) {
+                row.remove();
+            }
+        });
+    }
+
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(-20px); }
+        }
+        .editable-field:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+    `;
+    document.head.appendChild(style);
+});
+</script>
+{% endblock %}

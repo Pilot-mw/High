@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal - EduAdmin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --primary-light: #818cf8;
+            --secondary: #0ea5e9;
+            --dark: #0f172a;
+            --gray-900: #1e293b;
+            --gray-800: #334155;
+            --gray-700: #475569;
+            --gray-600: #64748b;
+            --gray-500: #94a3b8;
+            --gray-400: #cbd5e1;
+            --gray-300: #e2e8f0;
+            --gray-200: #f1f5f9;
+            --gray-100: #f8fafc;
+            --white: #ffffff;
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--gray-800);
+            line-height: 1.6;
+            background: var(--gray-100);
+        }
+
+        .portal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.15);
+        }
+
+        .portal-brand {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .brand-text {
+            font-weight: 800;
+            font-size: 1.25rem;
+        }
+
+        .brand-subtitle {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            text-align: right;
+            color: var(--white);
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .user-id {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .portal-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            color: var(--white);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+
+        .stat-icon.blue { background: linear-gradient(135deg, var(--secondary) 0%, #06b6d4 100%); }
+        .stat-icon.green { background: linear-gradient(135deg, var(--success) 0%, #10b981 100%); }
+        .stat-icon.orange { background: linear-gradient(135deg, var(--warning) 0%, #f97316 100%); }
+        .stat-icon.purple { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); }
+
+        .stat-info h3 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--dark);
+            line-height: 1;
+        }
+
+        .stat-info p {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .portal-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--primary);
+        }
+
+        .portal-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            color: var(--white);
+            flex-shrink: 0;
+        }
+
+        .portal-icon.attend { background: linear-gradient(135deg, var(--success) 0%, #10b981 100%); }
+        .portal-icon.results { background: linear-gradient(135deg, var(--secondary) 0%, #06b6d4 100%); }
+        .portal-icon.fees { background: linear-gradient(135deg, var(--warning) 0%, #f97316 100%); }
+        .portal-icon.timetable { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); }
+        .portal-icon.notes { background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%); }
+        .portal-icon.messages { background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%); }
+
+        .portal-text h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .portal-text p {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .portal-header {
+                padding: 1rem;
+            }
+
+            .portal-brand {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .brand-subtitle {
+                display: none;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .portal-content {
+                padding: 1rem;
+            }
+
+            .welcome-banner {
+                padding: 1.5rem;
+            }
+
+            .welcome-title {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="portal-header">
+        <div class="portal-brand">
+            <a href="#" class="brand-left">
+                <div class="brand-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <div class="brand-text">EduAdmin</div>
+                    <div class="brand-subtitle">Student Portal</div>
+                </div>
+            </a>
+            <div class="user-menu">
+                <div class="user-info">
+                    <div class="user-name">{{ student.get_full_name }}</div>
+                    <div class="user-id">{{ student.student_id }}</div>
+                </div>
+                <a href="{% url 'student_logout' %}" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="portal-content">
+        <div class="welcome-banner">
+            <div class="welcome-content">
+                <h1 class="welcome-title">Welcome, {{ student.get_full_name }}!</h1>
+                <p class="welcome-subtitle">Form {{ student.form_level }}{% if student.stream %} - {{ student.stream }}{% endif %} | Student ID: {{ student.student_id }}</p>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>95%</h3>
+                    <p>Attendance Rate</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>A</h3>
+                    <p>Current Grade</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>${{ student.fees_balance|default:"0" }}</h3>
+                    <p>Fees Balance</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon purple">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>#3</h3>
+                    <p>Class Rank</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="portal-grid">
+            <a href="#" class="portal-card">
+                <div class="portal-icon attend">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <div class="portal-text">
+                    <h3>Attendance</h3>
+                    <p>View your attendance records</p>
+                </div>
+            </a>
+            <a href="#" class="portal-card">
+                <div class="portal-icon results">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="portal-text">
+                    <h3>Results & Grades</h3>
+                    <p>Check your exam results</p>
+                </div>
+            </a>
+            <a href="#" class="portal-card">
+                <div class="portal-icon fees">
+                    <i class="fas fa-receipt"></i>
+                </div>
+                <div class="portal-text">
+                    <h3>Fees & Payments</h3>
+                    <p>View fee balance and make payments</p>
+                </div>
+            </a>
+            <a href="#" class="portal-card">
+                <div class="portal-icon timetable">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="portal-text">
+                    <h3>Timetable</h3>
+                    <p>View your class schedule</p>
+                </div>
+            </a>
+            <a href="#" class="portal-card">
+                <div class="portal-icon notes">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="portal-text">
+                    <h3>Study Materials</h3>
+                    <p>Access notes and resources</p>
+                </div>
+            </a>
+            <a href="#" class="portal-card">
+                <div class="portal-icon messages">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="portal-text">
+                    <h3>Messages</h3>
+                    <p>Communicate with teachers</p>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
