@@ -221,6 +221,7 @@ def save_settings(request):
             if settings_type == 'general':
                 return JsonResponse({'success': True, 'message': 'General settings saved successfully'})
             elif settings_type == 'appearance':
+                theme = settings_data.get('theme', 'light')
                 return JsonResponse({'success': True, 'message': 'Appearance settings saved successfully'})
             elif settings_type == 'notifications':
                 return JsonResponse({'success': True, 'message': 'Notification settings saved successfully'})

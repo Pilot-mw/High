@@ -58,18 +58,69 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const themeOptions = document.querySelectorAll('.theme-option');
+    const root = document.documentElement;
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    
+    function applyTheme(theme) {
+        root.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        if (theme === 'dark') {
+            root.style.setProperty('--bg-primary', '#1a1a2e');
+            root.style.setProperty('--bg-secondary', '#16213e');
+            root.style.setProperty('--text-primary', '#eaeaea');
+            root.style.setProperty('--text-secondary', '#a0a0a0');
+            root.style.setProperty('--border-color', '#2d2d44');
+        } else if (theme === 'auto') {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            applyTheme(prefersDark ? 'dark' : 'light');
+            return;
+        } else {
+            root.style.setProperty('--bg-primary', '#ffffff');
+            root.style.setProperty('--bg-secondary', '#f8f9fa');
+            root.style.setProperty('--text-primary', '#212529');
+            root.style.setProperty('--text-secondary', '#6c757d');
+            root.style.setProperty('--border-color', '#dee2e6');
+        }
+    }
+    
+    applyTheme(savedTheme);
+    
     themeOptions.forEach(option => {
+        if (option.querySelector('h6').textContent.toLowerCase() === savedTheme) {
+            option.classList.add('active');
+        }
         option.addEventListener('click', function() {
             themeOptions.forEach(opt => opt.classList.remove('active'));
             this.classList.add('active');
+            const theme = this.querySelector('h6').textContent.toLowerCase();
+            applyTheme(theme);
         });
     });
 
     const colorOptions = document.querySelectorAll('.color-option');
+    const savedPrimaryColor = localStorage.getItem('primaryColor') || '#6366f1';
+    
+    function applyPrimaryColor(color) {
+        document.documentElement.style.setProperty('--primary-color', color);
+        localStorage.setItem('primaryColor', color);
+    }
+    
+    applyPrimaryColor(savedPrimaryColor);
+    
     colorOptions.forEach(option => {
-        option.addEventListener('click', function() {
+        const rgb = getComputedStyle(option).backgroundColor;
+        const hex = rgbToHex(rgb);
+        if (hex.toLowerCase() === savedPrimaryColor.toLowerCase() || 
+            hex.toLowerCase() === rgbToHex(savedPrimaryColor).toLowerCase()) {
+            option.style.borderColor = 'var(--primary-color)';
+        }
+        
+option.addEventListener('click', function() {
             colorOptions.forEach(opt => opt.style.borderColor = 'transparent');
             this.style.borderColor = 'var(--primary-color)';
+            const clickedRgb = getComputedStyle(this).backgroundColor;
+            applyPrimaryColor(clickedRgb);
         });
     });
 

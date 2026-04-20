@@ -510,6 +510,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Save Appearance Settings
+    const appearanceBtn = document.querySelector('#appearance .btn-primary');
+    if (appearanceBtn) {
+        appearanceBtn.addEventListener('click', function() {
+            const activeTheme = document.querySelector('.theme-option.active');
+            const theme = activeTheme ? activeTheme.querySelector('h6').textContent.toLowerCase() : 'light';
+            
+            const sidebarStyle = document.querySelector('#appearance .form-select')?.value || 'expanded';
+            
+            const colorInput = document.querySelector('.color-option[style*="borderColor"]') || document.querySelector('.color-option');
+            const primaryColor = colorInput ? getComputedStyle(colorInput[0] || colorInput).backgroundColor : '#6366f1';
+            
+            const data = {
+                type: 'appearance',
+                data: {
+                    theme: theme,
+                    sidebar_style: sidebarStyle,
+                    primary_color: primaryColor
+                }
+            };
+            saveSettings(data, 'Appearance settings saved');
+        });
+    }
+
     function saveSettings(data, successMessage) {
         fetch('/api/save-settings/', {
             method: 'POST',
