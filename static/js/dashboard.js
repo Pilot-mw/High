@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const colorOptions = document.querySelectorAll('.color-option');
-    const savedPrimaryColor = localStorage.getItem('primaryColor') || '#6366f1';
+    const savedPrimaryColor = localStorage.getItem('primaryColor') || '#3b82f6';
     
     function applyPrimaryColor(color) {
         document.documentElement.style.setProperty('--primary-color', color);
